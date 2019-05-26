@@ -1,8 +1,12 @@
-
+// sheets
 var BASE_URL = 'https://sheets.googleapis.com/v4/spreadsheets/';
 var SHEET_ID = '1-Cp9gCCSIG28EGCB1ogOIxQtFNfF960JaYtXVLGuRWk';
 var API_KEY = 'AIzaSyA95TdzS4n7LHl-el_W2bznw-1pekZBqf8';
 
+// script
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyI3CTUU6ExNLzVBW2kQY2pTIz0H-C-CmHF73PbTtrQzYr4dtA/exec';
+
+// range defs
 var PARTIES_RANGE = 'parties!A1:A666';
 var PERSONS_RANGE = 'persons!A1:D254';
 var INVITES_RANGE = 'invites!A1:C432';
@@ -28,14 +32,14 @@ window.fetchParties = function(options = {}) {
     if (options.success) {
       options.success(parties);
     }
-  }
+  };
 
   xhr.onerror = function(e) {
     console.log(e);
-  }
+  };
 
   xhr.send(null);
-}
+};
 
 
 window.fetchPersonsByParty = function(id, options = {}) {
@@ -58,14 +62,14 @@ window.fetchPersonsByParty = function(id, options = {}) {
     if (options.success) {
       options.success(persons);
     }
-  }
+  };
 
   xhr.onerror =  function(e) {
     console.log(e);
-  }
+  };
 
   xhr.send(null);
-}
+};
 
 
 window.fetchInvites = function(options = {}) {
@@ -88,11 +92,53 @@ window.fetchInvites = function(options = {}) {
     if (options.success) {
       options.success(invites);
     }
-  }
+  };
 
   xhr.onerror = function(e) {
     console.log(e);
-  }
+  };
 
+  xhr.send(null);
+};
+
+
+window.setInvite = function(invite, options = {}) {
+  var url = SCRIPT_URL + '?sheet=invites&id=' + invite.id + '&rsvp=' + invite.rsvp;
+  var xhr = new XMLHttpRequest();
+  
+  xhr.open('GET', url, true);
+  
+  xhr.onload = function(e) {
+    if (options.success) {
+      options.success(e);
+    }
+    console.log(e);
+  };
+  
+  xhr.onerror = function(e) {
+    console.log(e);
+  };
+  
+  xhr.send(null);
+}
+
+
+window.setPerson = function(person, options = {}) {
+  var url = SCRIPT_URL + '?sheet=persons&id=' + person.id + '&edited_name=' + person.edited_name;
+  var xhr = new XMLHttpRequest();
+  
+  xhr.open('GET', url, true);
+  
+  xhr.onload = function(e) {
+    if (options.success) {
+      options.success(e);
+      console.log(e);
+    }
+  };
+  
+  xhr.onerror = function(e) {
+    console.log(e);
+  };
+  
   xhr.send(null);
 }
