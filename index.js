@@ -35,7 +35,9 @@ window.fetchParties = function(options = {}) {
   };
 
   xhr.onerror = function(e) {
-    console.log(e);
+    if (options.error) {
+      options.error(e);
+    }
   };
 
   xhr.send(null);
@@ -65,7 +67,9 @@ window.fetchPersonsByParty = function(id, options = {}) {
   };
 
   xhr.onerror =  function(e) {
-    console.log(e);
+    if (options.error) {
+      options.error(e);
+    }
   };
 
   xhr.send(null);
@@ -95,7 +99,9 @@ window.fetchInvites = function(options = {}) {
   };
 
   xhr.onerror = function(e) {
-    console.log(e);
+    if (options.error) {
+      options.error(e);
+    }
   };
 
   xhr.send(null);
@@ -112,11 +118,12 @@ window.setInvite = function(invite, options = {}) {
     if (options.success) {
       options.success(e);
     }
-    console.log(e);
   };
   
   xhr.onerror = function(e) {
-    console.log(e);
+    if (options.error) {
+      options.error(e);
+    }
   };
   
   xhr.send(null);
@@ -132,12 +139,13 @@ window.setPerson = function(person, options = {}) {
   xhr.onload = function(e) {
     if (options.success) {
       options.success(e);
-      console.log(e);
     }
   };
   
   xhr.onerror = function(e) {
-    console.log(e);
+    if (options.error) {
+      options.error(e);
+    }
   };
   
   xhr.send(null);
