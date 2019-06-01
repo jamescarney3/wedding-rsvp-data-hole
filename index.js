@@ -109,7 +109,8 @@ window.fetchInvites = function(options = {}) {
 
 
 window.setInvite = function(invite, options = {}) {
-  var url = SCRIPT_URL + '?sheet=invites&id=' + invite.id + '&rsvp=' + invite.rsvp;
+  // var url = SCRIPT_URL + '?sheet=invites&id=' + invite.id + '&rsvp=' + invite.rsvp + '&meal=' + invite.meal;
+  var url = SCRIPT_URL + '?sheet=invites' + parseQueryParams(invite);
   var xhr = new XMLHttpRequest();
   
   xhr.open('GET', url, true);
@@ -131,7 +132,8 @@ window.setInvite = function(invite, options = {}) {
 
 
 window.setPerson = function(person, options = {}) {
-  var url = SCRIPT_URL + '?sheet=persons&id=' + person.id + '&edited_name=' + person.edited_name;
+  // var url = SCRIPT_URL + '?sheet=persons&id=' + person.id + '&edited_name=' + person.edited_name;
+  var url = SCRIPT_URL + '?sheet=persons' + parseQueryParams(person);
   var xhr = new XMLHttpRequest();
   
   xhr.open('GET', url, true);
@@ -149,4 +151,39 @@ window.setPerson = function(person, options = {}) {
   };
   
   xhr.send(null);
+}
+
+
+window.setParty = function(party, options = {}) {
+  // var url = SCRIPT_URL + '?sheet=parties&id=' + party.id + '&diet=' + party.diet;
+  var url = SCRIPT_URL + '?sheet=parties' + parseQueryParams(party);
+  var xhr = new XMLHttpRequest();
+  
+  xhr.open('GET', url, true);
+  
+  xhr.onload = function(e) {
+    if (options.success) {
+      options.success(e);
+    }
+  };
+  
+  xhr.onerror = function(e) {
+    if (options.error) {
+      options.error(e);
+    }
+  };
+  
+  xhr.send(null);
+}
+
+
+function parseQueryParams(entity) {
+  var keys = Object.keys(entity);
+  var paramString = '';
+  
+  for (var i = 0; i < keys.length; i++) {
+    paramString = paramString + '&' + keys[i] + '=' + entity[keys[i]];
+  }
+  
+  return paramString;
 }
