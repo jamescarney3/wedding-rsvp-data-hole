@@ -1,9 +1,17 @@
+/*
+YES YES I KNOW LEAVING KEYS HERE IS BAD PRACTICE< BUT THIS IS FOR A RELATIVELY
+TEMPORARY PROJECT THAT JUST READS AND UPDATES SOME SHARED SPREADSHEETS SO I'M
+NOT ESPECIALLY WORRIED ABOUT SECURITY </rant>
+*/
+
+
+
 // sheets
 var BASE_URL = 'https://sheets.googleapis.com/v4/spreadsheets/';
 var SHEET_ID = '1-Cp9gCCSIG28EGCB1ogOIxQtFNfF960JaYtXVLGuRWk';
 var API_KEY = 'AIzaSyA95TdzS4n7LHl-el_W2bznw-1pekZBqf8';
 
-// script
+// scripts
 var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyI3CTUU6ExNLzVBW2kQY2pTIz0H-C-CmHF73PbTtrQzYr4dtA/exec';
 
 // range defs
