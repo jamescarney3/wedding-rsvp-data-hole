@@ -1,5 +1,5 @@
 /*
-YES YES I KNOW LEAVING KEYS HERE IS BAD PRACTICE< BUT THIS IS FOR A RELATIVELY
+YES YES I KNOW LEAVING KEYS HERE IS BAD PRACTICE, BUT THIS IS FOR A RELATIVELY
 TEMPORARY PROJECT THAT JUST READS AND UPDATES SOME SHARED SPREADSHEETS SO I'M
 NOT ESPECIALLY WORRIED ABOUT SECURITY </rant>
 */
@@ -39,6 +39,38 @@ window.fetchParties = function(options = {}) {
 
     if (options.success) {
       options.success(parties);
+    }
+  };
+
+  xhr.onerror = function(e) {
+    if (options.error) {
+      options.error(e);
+    }
+  };
+
+  xhr.send(null);
+};
+
+
+window.fetchPersons = function(options = {}) {
+  var url = BASE_URL + SHEET_ID + '/values/' + PERSONS_RANGE + '?key=' + API_KEY;
+  var xhr = new XMLHttpRequest();
+
+  xhr.open('GET', url, true);
+
+  xhr.onload = function(e) {
+    var personsResp = JSON.parse(e.target.responseText);
+    var persons = [];
+
+    for (var i = 1; i < personsResp.values.length; i++) {
+      var personsRow = personsResp.values[i];
+      if (personsRow.length) {
+        persons.push({ id: i + 1, name: personsRow[0], type: personsRow[1], edited_name: personsRow[2], party_id: personsRow[3] });
+      }
+    }
+
+    if (options.success) {
+      options.success(persons);
     }
   };
 
@@ -107,6 +139,38 @@ window.fetchInvites = function(options = {}) {
   };
 
   xhr.onerror = function(e) {
+    if (options.error) {
+      options.error(e);
+    }
+  };
+
+  xhr.send(null);
+};
+
+
+window.fetchInvitesByPerson = function(id, options = {}) {
+  var url = BASE_URL + SHEET_ID + '/values/' + INVITES_RANGE + '?key=' + API_KEY;
+  var xhr = new XMLHttpRequest();
+
+  xhr.open('GET', url, true);
+
+  xhr.onload = function(e) {
+    var invitesResp = JSON.parse(e.target.responseText);
+    var invites = [];
+
+    for (var i = 1; i < invitesResp.values.length; i++) {
+      var invitesRow = invitesResp.values[i];
+      if (invitesRow[1] == id) {
+        invites.push({ id: i + 1, event: invitesRow[0], person_id: invitesRow[1], rsvp: invitesRow[2], meal: invitesRow[3] });
+      }
+    }
+
+    if (options.success) {
+      options.success(invites);
+    }
+  };
+
+  xhr.onerror =  function(e) {
     if (options.error) {
       options.error(e);
     }
